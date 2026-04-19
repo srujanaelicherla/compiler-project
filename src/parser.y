@@ -30,3 +30,24 @@ statement:
 void yyerror(const char *s) {
     fprintf(stderr, "Parse Error: %s\n", s);
 }
+%{
+#include "../include/symbol_table.h"
+%}
+
+stmt:
+    ID '=' expr ';'
+    {
+        if(lookup($1) == -1) {
+            printf("Error: Variable '%s' not declared\n", $1);
+        } else {
+            printf("Assignment OK\n");
+        }
+    }
+;
+
+stmt:
+    INT ID ';'
+    {
+        insert($2);
+    }
+;
